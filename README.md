@@ -1,31 +1,41 @@
 # Berry-Pick-UR3e
-This repository hosts the development of a computer vision and robotics pipeline for automated strawberry harvesting.  
-The project integrates a **UR3e collaborative robot**, a **custom-designed gripper**, and a **vision system** based on YOLOv8 to detect ripe strawberries for autonomous picking.  
+
+This repository hosts the development of a **computer vision and robotics pipeline** for automated strawberry harvesting.  
+The project integrates a **UR3e collaborative robot**, a **custom-designed gripper**, and a **vision system** based on YOLOv8 to detect ripe strawberries for autonomous picking.
 
 ---
 
-Two main branches are maintained:  
-- `vision` → version control for dataset preparation, training, and model evaluation.  
-- `matlab` → control and simulation scripts for UR3e integration.  
+## Branches
+
+Two main branches are maintained:
+
+- `vision` → Dataset preparation, model training, and evaluation.  
+- `matlab` → UR3e control and simulation scripts.
 
 ---
 
-## About the Project  
+## Project Overview
 
-- **Vision**: Detect ripe strawberries in real-time using YOLOv8.  
+- **Vision**: Real-time detection of ripe strawberries using YOLOv8.  
 - **Robot**: UR3e robot arm for precise manipulation.  
 - **End-Effector**: Pneumatically actuated gripper with coupler and camera housing.  
-- **Integration**: Vision-based detection to robot commands via ROS/Matlab API.  
-- **IoT Monitoring**: Node-RED dashboard with MQTT integration to track plant **temperature and humidity** during tests.  
+- **Integration**: Vision-based detection triggers robot commands via ROS/Matlab API.  
+- **IoT Monitoring**: Node-RED dashboard with MQTT integration to track **temperature and humidity** during tests.
 
 ---
 
-## Workflow  
+## Workflow
 
 1. Collect and annotate strawberry datasets.  
 2. Train YOLOv8 models for maturity classification.  
 3. Validate and optimize detection performance.  
-4. Integrate with UR3e motion planning, pneumatic control, and gripper actuation.  
+4. Integrate detection with UR3e motion planning, pneumatic control, and gripper actuation.  
 5. Deploy system for real-time strawberry picking tests.  
-6. Monitor environment (temperature & humidity) in a Node-RED dashboard via MQTT.  
+6. Monitor environment (temperature & humidity) via Node-RED dashboard using MQTT.
 
+---
+
+## Electrical Diagram
+
+![Electrical Diagram](datasheets/Diagrama_eléctrico.png)  
+*Example: Shows sensor connections, gripper actuation, and UR3e integration.*
