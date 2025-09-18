@@ -37,5 +37,5 @@ Two main branches are maintained:
 
 ## Electrical Diagram
 
-![Electrical Diagram](datasheets/Diagrama_eléctrico.png)  
+![Electrical Diagram](datasheets/electrical_diagram.png)  
 *Example: Shows sensor connections, gripper actuation, and UR3e integration.*
