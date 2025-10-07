@@ -41,8 +41,6 @@ The goal is to decide, based on a strawberry dataset and a detection model, **wh
 - Recall: `...`  
 - Loss (box/cls/obj): `...`  
 
-> Training graphs (`results.png` from YOLOv8) will be added here.
-
 ---
 
 ## Dataset
