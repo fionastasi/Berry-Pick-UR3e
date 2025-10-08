@@ -10,7 +10,7 @@ The project integrates a **UR3e collaborative robot**, a **custom-designed gripp
 Two main branches are maintained:
 
 - `vision` → Dataset preparation, model training, and evaluation.  
-- `matlab` → UR3e control and simulation scripts.
+- `gripper` → ISO drawings and specifications
 
 ---
 
