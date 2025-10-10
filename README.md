@@ -32,10 +32,3 @@ Two main branches are maintained:
 4. Integrate detection with UR3e motion planning, pneumatic control, and gripper actuation.  
 5. Deploy system for real-time strawberry picking tests.  
 6. Monitor environment (temperature & humidity) via Node-RED dashboard using MQTT.
-
----
-
-## Electrical Diagram
-
-![Electrical Diagram](datasheets/electrical_diagram.png)  
-*Example: Shows sensor connections, gripper actuation, and UR3e integration.*
