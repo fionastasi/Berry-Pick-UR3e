@@ -27,8 +27,6 @@ The gripper is designed as a **5-finger petal-type soft actuator**:
   - Thickness: **7.5 mm** (without chamber volume)
 - **Grasping area:**  
   - Effective diameter: **≈ 50 mm**, suitable for enveloping the strawberry while supporting the peduncle.
---
-Gripper overview:(drawings/Gripper_1.pdf) (drawings/Gripper_2.pdf)
 
 ---
 
