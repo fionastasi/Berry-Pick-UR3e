@@ -79,7 +79,9 @@ Drawings for all these components are included in `drawings/`.
    - Begin with low-pressure tests off-robot.  
    - Increase gradually to nominal pressure (17.5 kPa).  
    - Verify consistent finger actuation and camera field of view.
-7.- ![Electrical Diagram](datasheets/electrical_diagram.png)  
+
+## Electrical Diagram
+![Electrical Diagram](datasheets/electrical_diagram.png)  
 
 ---
 
