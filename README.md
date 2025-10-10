@@ -59,7 +59,7 @@ The gripper is designed as a **5-finger petal-type soft actuator**:
 
 - **UR3e Coupler:**  
   - Secure mechanical interface between the gripper base and the **UR3e robot flange**.
-  - [Specify material, e.g., *Aluminum 6061-T6*]
+  - 3D printed
 
 - **Camera Coupler:**  
   - Designed to mount a vision system (camera) fixed to the gripper assembly.
@@ -79,6 +79,7 @@ Drawings for all these components are included in `drawings/`.
    - Begin with low-pressure tests off-robot.  
    - Increase gradually to nominal pressure (17.5 kPa).  
    - Verify consistent finger actuation and camera field of view.
+7.- ![Electrical Diagram](datasheets/electrical_diagram.png)  
 
 ---
 
