@@ -1,58 +1,69 @@
-# Vision — Strawberry Harvesting with Cobot UR3 + Soft Gripper
+# Vision Module — Berry-Pick-UR3e  
+**Strawberry Harvesting with UR3 Cobot + Soft Gripper**
 
-## Description
-This branch contains the **computer vision module** for the strawberry harvesting project using a UR3 cobot and a soft gripper.  
-The goal is to decide, based on a strawberry dataset and a detection model, **whether the robot should harvest a strawberry** within a **dynamic Region of Interest (ROI)**.
+## Overview
 
-### Workflow:
-1. **Initial Detection**  
-   - The *eye-in-hand* camera (mounted above the gripper) captures the scene.  
-   - YOLOv8 detects strawberries and defines a dynamic ROI.  
-2. **Movement & Harvesting**  
-   - The cobot moves toward the detected strawberry.  
-   - The soft gripper collects it.  
-3. **Post-harvest Verification**  
-   - The ROI is adjusted to focus inside the gripper.  
-   - The system verifies whether the strawberry is actually inside the gripper.  
-4. **State Flags**  
-   - `strawberry_detected`  
-   - `movement_executed`  
-   - `harvest_successful`  
-   - `cycle_reset`  
+This branch contains the complete computer vision pipeline used for object detection and 3D localization in the berry-picking system. It includes the trained YOLO model, training metrics, inference scripts, dataset tools, and all generated outputs.
+
+The goal of the vision subsystem is to:
+
+- Capture RGB and depth frames from the OAK-D camera
+- Detect ripe/unripe objects using a custom YOLO model
+- Compute real-world 3D coordinates using the pinhole model and depth
+- Provide the robot with accurate poses through JSON messaging
+
+This branch operates independently but is fully integrated with the main robotic workflow and the dashboard simulation.
+
+---
+
+## Core Pipeline
+
+The harvesting sequence calls the script `test_POD_PnP5.py`, which performs the following steps:
+
+1. **Image Acquisition**
+   - Connects to the **OAK-D Pro** camera (eye-in-hand configuration).
+   - Captures synchronized **RGB (pinhole)** and **depth** frames.
+   - Generates a color map for visualization.
+
+2. **Strawberry Detection**
+   - Runs inference using a trained **YOLOv8** model.
+   - Detects strawberries and classifies them as `ripe` or `unripe`.
+   - If multiple ripe strawberries are found, selects the one with the **highest confidence** and highlights it with a **green bounding box**.
+   - Unripe-only cases automatically block the harvesting action and request a new frame.
+
+3. **Pose Estimation**
+   - Retrieves camera **intrinsics**.
+   - Extracts the **center of the selected bounding box**
+   - Computes the 3D position using **pinhole + depth**.
+   - This matrix is used to guide the UR3 robot to the target strawberry.
+
+4. **Harvesting Sequence**
+   - The robot moves toward the selected strawberry.
+   - The soft gripper performs the harvesting action.
+
+5. **Post-Harvest Verification**
+   - The system re-scans the scene to validate harvesting success.
 
 ---
 
 ## Branch Contents
-- `dataset/` → Strawberry dataset (organized by classes and annotations).  
-- `train/` → YOLOv8 training scripts.  
-- `logs/` → Training results, epoch metrics.  
-- `weights/` → Trained weights (e.g., `best.pt`).  
-- `notebooks/` → Jupyter notebooks for experiments.  
-- `src/` → Inference code + UR3 integration.  
+
+- `dataset/` → Custom strawberry dataset (annotated by ripeness level).  
+- `train/` → YOLOv8 training scripts and configs.  
+- `weights/` → Trained YOLOv8 weights (`best.pt`).    
+- `test_POD_PnP5.py` → Main script for detection + localization + harvesting trigger.
 
 ---
 
-## YOLOv8 Metrics
-(To be filled after training)
+## YOLOv8 Metrics  
 
-- mAP50: `...`  
-- mAP50-95: `...`  
-- Precision: `...`  
-- Recall: `...`  
-- Loss (box/cls/obj): `...`  
+- **mAP50:** ~0.72
+- **mAP50-95:** ~0.47
+- **Precision:** ~0.72–0.75
+- **Recall:** ~0.73
+- **Validation Box Loss:** ~1.03
+- **Validation Cls Loss:** ~1.00
+- **Validation DFL Loss:** ~1.12
 
----
 
-## Dataset
-- Source: strawberry dataset collected in the lab.  
-- Approx. size: `N images`.  
-- Annotation format: YOLO.  
-- Split: `train / val / test`.  
-- Notes: different ripeness levels, partial occlusions due to foliage.  
 
----
-
-## How to Train
-```bash
-# Train YOLOv8
-yolo detect train data=dataset/data.yaml model=yolov8n.pt epochs=100 imgsz=640
