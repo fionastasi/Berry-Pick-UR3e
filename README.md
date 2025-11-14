@@ -7,6 +7,13 @@ The interface enables monitoring and control of the robot’s subsystems, integr
 
 This Node-RED flow centralizes system control and monitoring, making the interaction between hardware and software modules seamless. It operates in real time, supporting both manual and automatic modes, and provides a clear visualization of the robot’s status.
 
+## Dashboard Screenshots
+
+| Dashboard 1 | Dashboard 2 | Node-RED |
+|------------|-------------|----------|
+| ![](Dashboard_1.jpeg) | ![](Dashboard_2.jpeg) | ![](NodeRed.jpeg) |
+
+
 ## Dashboard Modules
 
 ### 1. General System Status
