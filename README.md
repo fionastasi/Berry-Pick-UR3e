@@ -34,5 +34,4 @@ Two main branches are maintained:
 6. Monitor environment (temperature & humidity) via Node-RED dashboard using MQTT.
 
 ## System Demonstration Video
-[![System Demo](preview.gif)](https://www.youtube.com/watch?v=Yzso3GYcB5o)
 [![System Demo](https://img.youtube.com/vi/Yzso3GYcB5o/maxresdefault.jpg)](https://www.youtube.com/watch?v=Yzso3GYcB5o)
