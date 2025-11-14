@@ -1,57 +1,58 @@
-# Berry-Pick-UR3e — Dashboard de Control
+# Berry-Pick-UR3e — Control Dashboard
 
-Este dashboard forma parte del proyecto **Berry-Pick-UR3e**, un sistema funcional de cosecha automatizada de fresas desarrollado por el equipo **Alfresi** del **Tec de Monterrey, campus Querétaro**. La interfaz permite monitorear y controlar los distintos subsistemas del robot recolector, integrando visión artificial, control robótico, y sistemas electroneumáticos.
+This dashboard is part of the Berry-Pick-UR3e project, a functional automated strawberry-harvesting system developed by Team Alfresi at Tec de Monterrey, Querétaro.
+The interface enables monitoring and control of the robot’s subsystems, integrating computer vision, robotic control, and electro-pneumatic actuation.
 
-## Propósito del Dashboard
+## Purpose of the Dashboard
 
-Este flujo en Node-RED centraliza el control y monitoreo del sistema, facilitando la interacción entre los módulos de hardware y software. Está diseñado para operar en tiempo real, tanto en modo manual como automático, y proporciona visualización clara del estado del sistema.
+This Node-RED flow centralizes system control and monitoring, making the interaction between hardware and software modules seamless. It operates in real time, supporting both manual and automatic modes, and provides a clear visualization of the robot’s status.
 
-## Módulos del Dashboard
+## Dashboard Modules
 
-### 1. Estado General del Sistema
-- **UR3e**: Estado de conexión y fase operativa
-- **ESP32**: Estado de conexión y control del gripper neumático
-- **Sistema**: Indicador de estado global (reposo, activo, error)
-- **Gripper**: Estado del actuador (abierto/cerrado)
+### 1. General System Status
+- **UR3e**: Connection status and operational phase
+- **ESP32**: Connection status and pneumatic gripper control
+- **Sistema**: Global indicator (idle, active, error)
+- **Gripper**: Actuator state (open/closed)
 
-### 2. Sistema Electroneumático
-- **Presión**: Lectura en tiempo real desde el sensor conectado al ESP32
-- **PWM**: Control de señal para válvulas neumáticas
-- **Botones de control**: Abrir / Cerrar el gripper
+### 2. Electro-Pneumatic System
+- **Pressure**: Real-time reading from the ESP32-connected sensor
+- **PWM**: Signal control for pneumatic valves
+- **Control buttons**: Open / Close gripper
 
-### 3. Visión Artificial
-- **Última imagen procesada**: Captura de la cámara **OAK-D Pro** con detección de fresas
-- **Transmisión en vivo**: Visualización continua del entorno de trabajo
+### 3. Computer Vision
+- **Last processed frame**: OAK-D Pro camera capture with strawberry detection
+- **Live feed**: Continuous visualization of the workspace
 
-### 4. Control del Robot
-- **Botones de operación**: INICIAR, DETENER, RESET, AUTO
-- **Integración con RoboDK**: Envío de comandos al UR3e para ejecutar trayectorias
+### 4. Robot Control
+- **Operation buttons**: START, STOP, RESET, AUTO
+- **RoboDK integration**: Sends trajectory execution commands to the UR3e
 
-## Integraciones
+## Integrations
 
-- **Node-RED**: Orquestación de flujos lógicos y visualización
-- **Python**: Procesamiento de imágenes y lógica de detección
-- **RoboDK**: Simulación y ejecución de trayectorias robóticas
-- **Arduino + ESP32**: Control del sistema neumático
-- **Mosquitto (MQTT)**: Comunicación entre módulos
+- **Node-RED**: Logical orchestration and dashboard UI
+- **Python**: Image processing and detection logic
+- **RoboDK**: Robot simulation and trajectory execution
+- **Arduino + ESP32**: Pneumatic system control
+- **Mosquitto (MQTT)**: Communication across modules
 
-## Estructura del flujo
+## Flow Structure
 
-El flujo está dividido en secciones temáticas:
-- `Estado general del sistema`
-- `Sistema electroneumático`
-- `Visión`
-- `Control del robot`
+The flow is organized into thematic sections:
+- `General System Status`
+- `Electro-pneumatic System`
+- `Vision`
+- `Robot Control`
 
-Cada sección contiene nodos de entrada (sensores, botones), funciones de procesamiento, y salidas visuales (LEDs, gráficos, imágenes).
+Each section includes input nodes (sensors, buttons), processing functions, and visual outputs (LEDs, charts, images).
 
-## Estado del Proyecto
+## Project Status
 
-Este dashboard corresponde a un **prototipo funcional** en fase de validación académica. La rama `gripper` contiene el desarrollo del actuador neumático suave diseñado por el equipo.
+This dashboard corresponds to a functional prototype currently in academic validation. The `gripper` branch contains the development of the team’s custom soft pneumatic actuator.
 
-## Créditos
+## Credits
 
-Desarrollado por el equipo **Alfresi**  
+Developed by **Alfresi**  
 **Tecnológico de Monterrey, Campus Querétaro**
 
 ---
