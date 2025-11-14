@@ -1,0 +1,1050 @@
+[
+    {
+        "id": "d996607fc5490652",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d9652c2c3cd3a021",
+        "type": "mqtt in",
+        "z": "d996607fc5490652",
+        "name": "",
+        "topic": "UR3e",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "78d10f9054a03f71",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 160,
+        "wires": [
+            [
+                "ac7ed554c1aac89a"
+            ]
+        ]
+    },
+    {
+        "id": "b7273673f0fe85f6",
+        "type": "mqtt in",
+        "z": "d996607fc5490652",
+        "name": "",
+        "topic": "ESP32",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "78d10f9054a03f71",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 200,
+        "wires": [
+            [
+                "6ecab368bb49aede"
+            ]
+        ]
+    },
+    {
+        "id": "1592609ea7806207",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "1. Estado general del sistema",
+        "info": "",
+        "x": 380,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ac7ed554c1aac89a",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 1",
+        "func": "// Obtener el estado actual del LED\nlet estado = context.get(\"estado\") || \"OFF\";\n\n// Normaliza el mensaje recibido\nlet msgIn = String(msg.payload).trim().toUpperCase();\n\n// Si es la primera ejecución o cambia el estado, actualiza\nif (msgIn === \"ON\") {\n    estado = \"ON\";\n    msg.payload = \"ON\";  // <-- Mantén texto, no booleano\n} else if (msgIn === \"OFF\") {\n    estado = \"OFF\";\n    msg.payload = \"OFF\"; // <-- Mantén texto, no booleano\n} else {\n    // Si recibe algo desconocido, mantener estado actual\n    msg.payload = estado;\n}\n\n// Guardar el nuevo estado\ncontext.set(\"estado\", estado);\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 160,
+        "wires": [
+            [
+                "f0408631884f2bd5"
+            ]
+        ]
+    },
+    {
+        "id": "6ecab368bb49aede",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 2",
+        "func": "// Obtener el estado actual del LED\nlet estado = context.get(\"estado\") || \"OFF\";\n\n// Normaliza el mensaje recibido\nlet msgIn = String(msg.payload).trim().toUpperCase();\n\n// Si es la primera ejecución o cambia el estado, actualiza\nif (msgIn === \"ON\") {\n    estado = \"ON\";\n    msg.payload = \"ON\";  // <-- Mantén texto, no booleano\n} else if (msgIn === \"OFF\") {\n    estado = \"OFF\";\n    msg.payload = \"OFF\"; // <-- Mantén texto, no booleano\n} else {\n    // Si recibe algo desconocido, mantener estado actual\n    msg.payload = estado;\n}\n\n// Guardar el nuevo estado\ncontext.set(\"estado\", estado);\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 200,
+        "wires": [
+            [
+                "bd9ca15094f48c20"
+            ]
+        ]
+    },
+    {
+        "id": "6c2d7ec2f60302d6",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "UR3e conexion",
+        "info": "",
+        "x": 160,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "8c0054861d171181",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Gripper conexion",
+        "info": "",
+        "x": 160,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "a138ca257e65448c",
+        "type": "mqtt in",
+        "z": "d996607fc5490652",
+        "name": "",
+        "topic": "UR3e/fase",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "78d10f9054a03f71",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "80e5862eb40517df"
+            ]
+        ]
+    },
+    {
+        "id": "0f680dc965f25e0d",
+        "type": "mqtt in",
+        "z": "d996607fc5490652",
+        "name": "",
+        "topic": "gripper/estado",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "78d10f9054a03f71",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 330,
+        "y": 280,
+        "wires": [
+            [
+                "41a93e55343da735"
+            ]
+        ]
+    },
+    {
+        "id": "80e5862eb40517df",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 3",
+        "func": "let estadoRaw = String(msg.payload).trim().toLowerCase();\nlet estado = \"\";\n\nswitch (estadoRaw) {\n    case \"reposo\":\n        estado = \"Reposo\";\n        break;\n    case \"foto\":\n        estado = \"foto\";\n        break;\n    case \"pick\":\n        estado = \"Pick\";\n        break;\n    case \"place\":\n        estado = \"Place\";\n        break;\n    default:\n        estado = \"Desconocido\";\n        break;\n}\n\nmsg.payload = estado;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 240,
+        "wires": [
+            [
+                "c5b0e989b502e9cd"
+            ]
+        ]
+    },
+    {
+        "id": "41a93e55343da735",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 4",
+        "func": "// Inicializa el estado si es la primera vez\nif (context.get(\"initialized\") !== true) {\n    msg.payload = \"Abierto\";\n    context.set(\"initialized\", true);\n    return msg;\n}\n\n// Normaliza el mensaje recibido\nvar estado = String(msg.payload).trim().toUpperCase();\n\n// Convierte los mensajes MQTT a texto legible\nswitch (estado) {\n    case \"OPEN\":\n    case \"ABIERTO\":\n        msg.payload = \"Abierto\";\n        break;\n\n    case \"CLOSED\":\n    case \"CERRADO\":\n        msg.payload = \"Cerrado\";\n        break;\n\n    default:\n        msg.payload = \"Desconocido\";\n        break;\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 280,
+        "wires": [
+            [
+                "bb03f84dc7665258"
+            ]
+        ]
+    },
+    {
+        "id": "e62680362b2cd553",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Estado del sistema",
+        "info": "",
+        "x": 150,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "48a215209fc07ae5",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Estado del gripper",
+        "info": "",
+        "x": 150,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "c5b0e989b502e9cd",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "group": "03d002f44a244782",
+        "page": "",
+        "ui": "",
+        "name": "LED estado sistema",
+        "order": 3,
+        "width": 3,
+        "height": 3,
+        "head": "",
+        "format": "<template>\n  <div class=\"system-status-container\">\n    <div class=\"label-text\">Estado del sistema</div>\n\n    <div class=\"led-section\">\n      <div class=\"led\" :style=\"ledStyle\"></div>\n      <div class=\"state-text\">{{ stateLabel }}</div>\n    </div>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      color: 'gray',\n      stateLabel: 'Reposo'\n    }\n  },\n  computed: {\n    ledStyle() {\n      return {\n        backgroundColor: this.color,\n        borderColor: 'black',\n        boxShadow: `0 0 15px 5px ${this.color}`,\n      }\n    }\n  },\n  mounted() {\n    this.$socket.on('msg-input:' + this.id, (msg) => {\n      if (msg && msg.payload) {\n        const payload = msg.payload.toString().toLowerCase()\n        switch (payload) {\n          case 'reposo':\n            this.color = 'gray'\n            this.stateLabel = 'Reposo'\n            break\n          case 'foto':\n            this.color = '#00bcd4'\n            this.stateLabel = 'Capturando foto'\n            break\n          case 'pick':\n            this.color = '#ffc107'\n            this.stateLabel = 'Pick'\n            break\n          case 'place':\n            this.color = '#4caf50'\n            this.stateLabel = 'Place'\n            break\n          default:\n            this.color = 'red'\n            this.stateLabel = 'Desconocido'\n        }\n      }\n    })\n  }\n}\n</script>\n\n<style>\n.system-status-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: row;\n  gap: 40px;\n}\n\n.label-text {\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 40px;\n  color: #222;\n  font-weight: bold;\n}\n\n.led-section {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.led {\n  width: 110px;\n  height: 110px;\n  border-radius: 50%;\n  border: 6px solid black;\n  transition: all 0.3s ease;\n}\n\n.state-text {\n  margin-top: 12px;\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 20px;\n  color: #222;\n}\n</style>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 700,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f0408631884f2bd5",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "group": "03d002f44a244782",
+        "page": "",
+        "ui": "",
+        "name": "UR3e LED",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "head": "",
+        "format": "<template>\n  <div class=\"onoff-container\">\n    <div class=\"label-text\">{{ title }}</div>\n\n    <div class=\"led-section\">\n      <div class=\"led\" :style=\"ledStyle\"></div>\n      <div class=\"state-text\">{{ stateLabel }}</div>\n    </div>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      color: 'red',\n      stateLabel: '',\n      title: 'UR3e' // puedes cambiarlo con un msg.title desde Node-RED\n    }\n  },\n  computed: {\n    ledStyle() {\n      return {\n        backgroundColor: this.color,\n        borderColor: 'black',\n        boxShadow: `0 0 15px 5px ${this.color}`,\n      }\n    }\n  },\n  mounted() {\n    // Escucha los mensajes que lleguen a este nodo\n    this.$socket.on('msg-input:' + this.id, (msg) => {\n      if (msg && msg.payload) {\n        const payload = msg.payload.toString().toUpperCase()\n\n        if (payload === 'ON') {\n          this.color = '#4caf50' // verde\n          this.stateLabel = ''\n        } else if (payload === 'OFF') {\n          this.color = '#f44336' // rojo\n          this.stateLabel = ''\n        }\n      }\n\n      // Si se recibe un título en msg.title, lo actualiza dinámicamente\n      if (msg && msg.title) {\n        this.title = msg.title\n      }\n    })\n  }\n}\n</script>\n\n<style>\n.onoff-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: row;\n  gap: 40px;\n}\n\n.label-text {\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 40px;\n  color: #222;\n  font-weight: bold;\n}\n\n.led-section {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.led {\n  width: 110px;\n  height: 110px;\n  border-radius: 50%;\n  border: 6px solid black;\n  transition: all 0.3s ease;\n}\n\n.state-text {\n  margin-top: 12px;\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 20px;\n  color: #222;\n}\n</style>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 670,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd9ca15094f48c20",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "group": "03d002f44a244782",
+        "page": "",
+        "ui": "",
+        "name": "ESP32 LED",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "head": "",
+        "format": "<template>\n  <div class=\"onoff-container\">\n    <div class=\"label-text\">{{ title }}</div>\n\n    <div class=\"led-section\">\n      <div class=\"led\" :style=\"ledStyle\"></div>\n      <div class=\"state-text\">{{ stateLabel }}</div>\n    </div>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      color: 'red',\n      stateLabel: '',\n      title: 'ESP32' // puedes cambiarlo con un msg.title desde Node-RED\n    }\n  },\n  computed: {\n    ledStyle() {\n      return {\n        backgroundColor: this.color,\n        borderColor: 'black',\n        boxShadow: `0 0 15px 5px ${this.color}`,\n      }\n    }\n  },\n  mounted() {\n    // Escucha los mensajes que lleguen a este nodo\n    this.$socket.on('msg-input:' + this.id, (msg) => {\n      if (msg && msg.payload) {\n        const payload = msg.payload.toString().toUpperCase()\n\n        if (payload === 'ON') {\n          this.color = '#4caf50' // verde\n          this.stateLabel = ''\n        } else if (payload === 'OFF') {\n          this.color = '#f44336' // rojo\n          this.stateLabel = ''\n        }\n      }\n\n      // Si se recibe un título en msg.title, lo actualiza dinámicamente\n      if (msg && msg.title) {\n        this.title = msg.title\n      }\n    })\n  }\n}\n</script>\n\n<style>\n.onoff-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: row;\n  gap: 40px;\n}\n\n.label-text {\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 40px;\n  color: #222;\n  font-weight: bold;\n}\n\n.led-section {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.led {\n  width: 110px;\n  height: 110px;\n  border-radius: 50%;\n  border: 6px solid black;\n  transition: all 0.3s ease;\n}\n\n.state-text {\n  margin-top: 12px;\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 20px;\n  color: #222;\n}\n</style>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 670,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bb03f84dc7665258",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "group": "03d002f44a244782",
+        "page": "",
+        "ui": "",
+        "name": "Gripper LED",
+        "order": 4,
+        "width": 3,
+        "height": 3,
+        "head": "",
+        "format": "<template>\n  <div class=\"onoff-container\">\n    <div class=\"label-text\">Gripper</div>\n\n    <div class=\"led-section\">\n      <div class=\"led\" :style=\"ledStyle\"></div>\n      <div class=\"state-text\">{{ stateLabel }}</div>\n    </div>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      color: 'red', // rojo (abierto por defecto)\n      stateLabel: 'Abierto'\n    }\n  },\n  computed: {\n    ledStyle() {\n      return {\n        backgroundColor: this.color,\n        borderColor: 'black',\n        boxShadow: `0 0 15px 5px ${this.color}`\n      }\n    }\n  },\n  mounted() {\n    // Escucha los mensajes MQTT entrantes\n    this.$socket.on('msg-input:' + this.id, (msg) => {\n      if (!msg || !msg.payload) return\n\n      const estado = msg.payload.toString().trim().toUpperCase()\n\n      if (estado === 'CLOSE' || estado === 'CERRADO') {\n        this.color = '#4caf50' // verde\n        this.stateLabel = 'Cerrado'\n      } else if (estado === 'OPEN' || estado === 'ABIERTO') {\n        this.color = '#f44336' // rojo\n        this.stateLabel = 'Abierto'\n      } else {\n        this.color = 'gray'\n        this.stateLabel = 'Desconocido'\n      }\n    })\n  }\n}\n</script>\n\n<style>\n.onoff-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: row;\n  gap: 40px;\n}\n\n.label-text {\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 40px;\n  color: #222;\n  font-weight: bold;\n}\n\n.led-section {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.led {\n  width: 110px;\n  height: 110px;\n  border-radius: 50%;\n  border: 6px solid black;\n  transition: all 0.3s ease;\n}\n\n.state-text {\n  margin-top: 12px;\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 20px;\n  color: #222;\n}\n</style>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 670,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41e6419ff530bc3b",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "2. Sistema electroneumático",
+        "info": "",
+        "x": 380,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "f1c23cde03263d37",
+        "type": "mqtt in",
+        "z": "d996607fc5490652",
+        "name": "",
+        "topic": "Presion",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "78d10f9054a03f71",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 400,
+        "wires": [
+            [
+                "e22ac4fea2ebdef0",
+                "369eabc3c8e728eb"
+            ]
+        ]
+    },
+    {
+        "id": "7e32c38c2d277a01",
+        "type": "mqtt in",
+        "z": "d996607fc5490652",
+        "name": "",
+        "topic": "PWM",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "78d10f9054a03f71",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 460,
+        "wires": [
+            [
+                "15c0ece9278b061f"
+            ]
+        ]
+    },
+    {
+        "id": "e22ac4fea2ebdef0",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 5",
+        "func": "// --- Node-RED Function: Preparar dato de presión para gráfico ---\n// El mensaje MQTT llega con msg.payload en texto, por ejemplo \"60\"\n\n// Convierte a número\nlet valor = parseFloat(msg.payload);\n\nif (isNaN(valor)) {\n    node.warn(\"Valor no numérico recibido en MQTT: \" + msg.payload);\n    return null; // descarta\n}\n\n// Añade timestamp local (opcional)\nmsg.payload = valor;\nmsg.timestamp = Date.now(); // milisegundos UNIX\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 380,
+        "wires": [
+            [
+                "95f0b5f7e4e96bb1"
+            ]
+        ]
+    },
+    {
+        "id": "95f0b5f7e4e96bb1",
+        "type": "ui-chart",
+        "z": "d996607fc5490652",
+        "group": "337a1531cae419e0",
+        "name": "Presión del sistema",
+        "label": "Presión del sistema",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Presión KPa",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "70",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": "10",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 10,
+        "className": "",
+        "interpolation": "linear",
+        "x": 690,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "efaeedb1c7e36a72",
+        "type": "ui-gauge",
+        "z": "d996607fc5490652",
+        "name": "Presión actual",
+        "group": "337a1531cae419e0",
+        "order": 4,
+        "width": 3,
+        "height": 5,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Presión",
+        "units": "KPa",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ea5353"
+            },
+            {
+                "from": "20",
+                "color": "#ffc800"
+            },
+            {
+                "from": "40",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "60",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "70",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 680,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "369eabc3c8e728eb",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 6",
+        "func": "// --- Node-RED Function: Preparar dato de presión para gráfico ---\n// El mensaje MQTT llega con msg.payload en texto, por ejemplo \"60\"\n\n// Convierte a número\nlet valor = parseFloat(msg.payload);\n\nif (isNaN(valor)) {\n    node.warn(\"Valor no numérico recibido en MQTT: \" + msg.payload);\n    return null; // descarta\n}\n\n// Añade timestamp local (opcional)\nmsg.payload = valor;\nmsg.timestamp = Date.now(); // milisegundos UNIX\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 420,
+        "wires": [
+            [
+                "efaeedb1c7e36a72"
+            ]
+        ]
+    },
+    {
+        "id": "15c0ece9278b061f",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 7",
+        "func": "// --- Node-RED Function: Preparar dato de presión para gráfico ---\n// El mensaje MQTT llega con msg.payload en texto, por ejemplo \"60\"\n\n// Convierte a número\nlet valor = parseFloat(msg.payload);\n\nif (isNaN(valor)) {\n    node.warn(\"Valor no numérico recibido en MQTT: \" + msg.payload);\n    return null; // descarta\n}\n\n// Añade timestamp local (opcional)\nmsg.payload = valor;\nmsg.timestamp = Date.now(); // milisegundos UNIX\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "bc17967f378d4ef9"
+            ]
+        ]
+    },
+    {
+        "id": "bc17967f378d4ef9",
+        "type": "ui-gauge",
+        "z": "d996607fc5490652",
+        "name": "PWM",
+        "group": "337a1531cae419e0",
+        "order": 5,
+        "width": 3,
+        "height": 5,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "PWM",
+        "units": "KPa",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ea5353"
+            },
+            {
+                "from": "50",
+                "color": "#ffc800"
+            },
+            {
+                "from": "140",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "200",
+                "color": "#20aac5"
+            }
+        ],
+        "min": 0,
+        "max": "255",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 650,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "3a89c262853043e8",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "group": "337a1531cae419e0",
+        "page": "",
+        "ui": "",
+        "name": "Boton abrir",
+        "order": 3,
+        "width": 6,
+        "height": 4,
+        "head": "",
+        "format": "<template>\n  <div style=\"text-align: center; display: flex; gap: 20px; justify-content: center;\">\n    <button class=\"button-gripper\" @click=\"enviarComando('abrir')\">ABRIR</button>\n    <button class=\"button-gripper\" @click=\"enviarComando('cerrar')\">CERRAR</button>\n  </div>\n</template>\n\n<script>\nexport default {\n  methods: {\n    enviarComando(cmd) {\n      this.send({ payload: cmd })\n    }\n  }\n}\n</script>\n\n<style scoped>\n.button-gripper {\n  background-color: #a5a5a5;\n  color: #ffffff;\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 22px;\n  font-weight: bold;\n  border: none;\n  border-radius: 12px;\n  width: 720;      /* tamaño fijo ancho */\n  height: 160px;      /* tamaño fijo alto */\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n  cursor: pointer;\n  transition: background-color 0.15s, transform 0.1s, box-shadow 0.1s;\n}\n\n/* Hover y activo */\n.button-gripper:hover {\n  background-color: #8c8c8c;\n}\n.button-gripper:active {\n  background-color: #707070;\n  transform: scale(0.96);\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);\n}\n</style>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 330,
+        "y": 520,
+        "wires": [
+            [
+                "046809983e8433df"
+            ]
+        ]
+    },
+    {
+        "id": "9f2a3c8e7c0bcf12",
+        "type": "mqtt out",
+        "z": "d996607fc5490652",
+        "name": "",
+        "topic": "gripper/cmd",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "78d10f9054a03f71",
+        "x": 690,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "046809983e8433df",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 10",
+        "func": "// Normaliza el mensaje\nlet comando = String(msg.payload).trim().toLowerCase();\n\n// Puedes agregar lógica si luego añades más botones (cerrar, stop, etc.)\nswitch (comando) {\n    case \"abrir\":\n        msg.payload = \"abrir\";\n        break;\n    case \"cerrar\":\n        msg.payload = \"cerrar\";\n        break;\n    default:\n        msg.payload = \"UNKNOWN\";\n        break;\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 520,
+        "wires": [
+            [
+                "9f2a3c8e7c0bcf12"
+            ]
+        ]
+    },
+    {
+        "id": "84a0392286b8e9ed",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Presion",
+        "info": "",
+        "x": 190,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "fd810aa1a928c74b",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "PWM",
+        "info": "",
+        "x": 190,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "23851f6e2c187d71",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Abrir",
+        "info": "",
+        "x": 190,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "a03b79c218445fec",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Cerrar",
+        "info": "",
+        "x": 190,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "fd875e49d67b7875",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "group": "52bad3b7902c8594",
+        "page": "",
+        "ui": "",
+        "name": "",
+        "order": 2,
+        "width": 8,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"text-align:center;\">\n    <h2 style=\"font-family:'Century Gothic'; font-weight:bold;\">Última detección</h2>\n    <img id=\"detected-img\"\n         src=\"/shot_detected.png\"\n         alt=\"Imagen no disponible\"\n         style=\"width: 733px; height: auto; border: 4px solid black; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.4);\">\n  </div>\n</template>\n\n<script>\nsetInterval(() => {\n  const img = document.getElementById(\"detected-img\");\n  if (img) {\n    // fuerza que el navegador no use caché\n    img.src = \"/shot_detected.png?t=\" + new Date().getTime();\n  }\n}, 2000); // refresca cada 2 segundos\n</script>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 320,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2e42e1d3ad7de216",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "d": true,
+        "group": "52bad3b7902c8594",
+        "page": "",
+        "ui": "",
+        "name": "",
+        "order": 1,
+        "width": 6,
+        "height": 0,
+        "head": "",
+        "format": "<div style=\"text-align:center;\">\n  <h3>Vista en vivo OAK-D</h3>\n  <img \n       src=\"http://localhost:5000/video\" \n       style=\"width:100%; max-width:970px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.3);\" />\n</div>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 320,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "78c55db2ba0f5c5e",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "3. Vision",
+        "info": "",
+        "x": 320,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "8fac1d5ac6cf6cde",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Ultima imagen procesada",
+        "info": "",
+        "x": 130,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "cbc057d9f8ca2b10",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Transmision en vivo",
+        "info": "",
+        "x": 150,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "51d8288fdfeb8ee2",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "4. Control del robot",
+        "info": "",
+        "x": 350,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "e4969edb99b017c8",
+        "type": "comment",
+        "z": "d996607fc5490652",
+        "name": "Ultima imagen procesada",
+        "info": "",
+        "x": 130,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "8d5b452f4665f021",
+        "type": "ui-template",
+        "z": "d996607fc5490652",
+        "group": "422d4cd5016fa3aa",
+        "page": "",
+        "ui": "",
+        "name": "Boton INICIAR",
+        "order": 2,
+        "width": 4,
+        "height": 12,
+        "head": "",
+        "format": "<template>\n  <div style=\"text-align: center; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;\">\n    <button class=\"button-iniciar\" @click=\"enviarComando('Iniciar')\">INICIAR</button>\n    <button class=\"button-detener\" @click=\"enviarComando('Detener')\">DETENER</button>\n    <button class=\"button-reset\" @click=\"enviarComando('Reset')\">RESET</button>\n    <button class=\"button-auto\" @click=\"enviarComando('Auto')\">AUTO</button>\n  </div>\n</template>\n\n<script>\nexport default {\n  methods: {\n    enviarComando(cmd) {\n      this.send({ payload: cmd })\n    }\n  }\n}\n</script>\n\n<style scoped>\n/* Dimensiones y fuente fijas para todos */\nbutton {\n  width: 400px;\n  height: 125;\n  font-family: \"Century Gothic\", sans-serif;\n  font-size: 22px;\n  font-weight: bold;\n  border: none;\n  border-radius: 12px;\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n  cursor: pointer;\n  transition: background-color 0.15s, transform 0.1s, box-shadow 0.1s;\n  color: #ffffff;\n}\n\n/* Colores por botón */\n.button-iniciar { background-color: #4CAF50; } /* verde */\n.button-detener { background-color: #F44336; } /* rojo */\n.button-reset   { background-color: #FFC107; color: #000000; } /* amarillo */\n.button-auto    { background-color: #2196F3; } /* azul */\n\n/* Hover y activo para todos */\nbutton:hover {\n  filter: brightness(85%);\n}\nbutton:active {\n  transform: scale(0.96);\n  box-shadow: 0 3px 6px rgba(0,0,0,0.4);\n}\n</style>\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 340,
+        "y": 760,
+        "wires": [
+            [
+                "a04a45ad2c7132e0",
+                "39c62207b2b3acaf"
+            ]
+        ]
+    },
+    {
+        "id": "a04a45ad2c7132e0",
+        "type": "function",
+        "z": "d996607fc5490652",
+        "name": "function 9",
+        "func": "// Normaliza el mensaje recibido del botón\nlet comando = String(msg.payload).trim().toLowerCase();\n\n// Asigna el texto correcto que enviará por MQTT\nswitch (comando) {\n    case \"iniciar\":\n        msg.payload = \"iniciar\";\n        break;\n\n    case \"detener\":\n        msg.payload = \"detener\";\n        break;\n\n    case \"reset\":\n        msg.payload = \"reset\";\n        break;\n\n    case \"auto\":\n        msg.payload = \"auto\";\n        break;\n\n    default:\n        msg.payload = \"UNKNOWN\";\n        break;\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 760,
+        "wires": [
+            [
+                "e9a1d34bedc709cb",
+                "a6c6fcbbcacb5fc0"
+            ]
+        ]
+    },
+    {
+        "id": "e9a1d34bedc709cb",
+        "type": "mqtt out",
+        "z": "d996607fc5490652",
+        "name": "UR3e/cmd",
+        "topic": "UR3e/cmd",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "78d10f9054a03f71",
+        "x": 690,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "39c62207b2b3acaf",
+        "type": "debug",
+        "z": "d996607fc5490652",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "a6c6fcbbcacb5fc0",
+        "type": "debug",
+        "z": "d996607fc5490652",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "78d10f9054a03f71",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "03d002f44a244782",
+        "type": "ui-group",
+        "name": "Estado general del sistema",
+        "page": "0a1cc609b58168f6",
+        "width": 12,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "337a1531cae419e0",
+        "type": "ui-group",
+        "name": "Sistema electoneumático",
+        "page": "0a1cc609b58168f6",
+        "width": 12,
+        "height": 1,
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "52bad3b7902c8594",
+        "type": "ui-group",
+        "name": "Visión",
+        "page": "0a1cc609b58168f6",
+        "width": 8,
+        "height": 1,
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "422d4cd5016fa3aa",
+        "type": "ui-group",
+        "name": "Control del robot",
+        "page": "0a1cc609b58168f6",
+        "width": 4,
+        "height": 1,
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "0a1cc609b58168f6",
+        "type": "ui-page",
+        "name": "Cosecha automatizada de fresas",
+        "ui": "c1aac617fd66f2ae",
+        "path": "/page2",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "ad6b62636a2299b4",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "c1aac617fd66f2ae",
+        "type": "ui-base",
+        "name": "ui_template.label.myDashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": true
+    },
+    {
+        "id": "ad6b62636a2299b4",
+        "type": "ui-theme",
+        "name": "ui_template.themes.defaultTheme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]
