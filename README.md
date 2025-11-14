@@ -9,7 +9,7 @@ This Node-RED flow centralizes system control and monitoring, making the interac
 
 ## Dashboard Screenshots
 
-| Dashboard 1 | Dashboard 2 | Node-RED |
+| General System Status | Electro-Pneumatic System | Node-RED |
 |------------|-------------|----------|
 | ![](Dashboard_1.jpeg) | ![](Dashboard_2.jpeg) | ![](NodeRed.jpeg) |
 
