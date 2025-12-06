@@ -35,3 +35,10 @@ Two main branches are maintained:
 
 ## System Demonstration Video
 [![System Demo](https://img.youtube.com/vi/Yzso3GYcB5o/maxresdefault.jpg)](https://www.youtube.com/watch?v=Yzso3GYcB5o)
+
+
+## License
+This project is licensed under the Apache License 2.0.
+You are free to use, modify, and integrate this code — including in commercial projects — as long as you retain the original copyright and license notices.
+
+For more details, see the LICENSE file in this repository.
